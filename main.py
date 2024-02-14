@@ -1,8 +1,11 @@
 import os
-from dotenv import load_dotenv
 import discord
 from discord.ext import tasks
-from data import get_btc_price, get_eth_price
+from dotenv import load_dotenv
+import matplotlib.pyplot as plt
+import pandas as pd
+import plotly.graph_objects as go
+from data import get_btc_price_history, get_eth_price_history
 from embed import create_crypto_price_embed
 
 load_dotenv()
@@ -24,8 +27,8 @@ bot = discord.Client()
 @bot.event
 async def on_ready():
     print(f'{bot.user} Conectado!')
-    await send_btc_price()  # Send the initial message with the current price
-    send_btc_price_task.start()  # Start the loop to send messages every   2 minutes
+    await send_btc_price()
+    send_btc_price_task.start() 
 
 @tasks.loop(minutes=2)
 async def send_btc_price_task():
